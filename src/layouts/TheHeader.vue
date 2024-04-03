@@ -1,7 +1,7 @@
 <template>
   <div class="navbar navbar-expand bg-primary text-white py-1">
     <div class="container-fluid">
-      <img src="@/images/ricco.png" class="navbar-brand rounded-circle">
+      <img src="@/assets/images/ricco.png" class="navbar-brand rounded-circle">
       <div class="collapse navbar-collapse">
         <ul class="navbar-nav">
           <li class="nav-item mx-3">

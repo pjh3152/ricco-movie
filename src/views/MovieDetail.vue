@@ -17,6 +17,7 @@
           <span v-for="d in mData.genres" :key="d" class="mx-1">
             {{ d.name }}
           </span>
+          <span class="ms-2">{{ mData.runtime }}분</span>
           <div class="my-3">
             {{ mData.overview }}
           </div>
@@ -29,6 +30,19 @@
       </div>
     </div>
 
+    <div class="row">
+      <div class="col-lg-2" v-if="mDirector">
+        <CreditCard :data="mDirector" />
+      </div>
+      <!-- <div class="col-lg-2" v-for="(d, idx) in mCredit.cast" :key="d.id"> -->
+      <div class="col-lg-2 d-flex justify-content-center" v-for="d in mCredit.cast" :key="d.id">
+        <!-- <span v-if="idx < 12"> -->
+
+        <CreditCard :data="d" />
+        <!-- </span> -->
+      </div>
+    </div>
+
   </div>
 </template>
 
@@ -37,17 +51,33 @@ import { ref } from "vue";
 import { api } from "@/api/axios";
 import { useRoute } from "vue-router";
 import { poster, backDrop } from "@/util/poster";
+import CreditCard from "@/components/CreditCard";
 
 const mData = ref({});
+const mCredit = ref({});
+const mDirector = ref({});
 const route = useRoute();
 const bgStyle = ref("");
 const originTitle = ref("");
 
 const getData = async () => {
-  const { data } = await api.getDetail(route.params.id);
-  mData.value = data;
-  originTitle.value = `(${data.original_title})`;
-  bgStyle.value = "url('" + backDrop(data.backdrop_path) + "')";
+
+  const [detail, credit] = await Promise.all([
+    api.getDetail(route.params.id),
+    api.getCredits(route.params.id),
+  ]).catch((err) => { console.log(err); })
+
+  mData.value = detail.data;
+  mCredit.value = credit.data;
+
+  // 영어제목
+  originTitle.value = `(${detail.data.original_title})`;
+
+  // 배경이미지
+  bgStyle.value = "url('" + backDrop(detail.data.backdrop_path) + "')";
+
+  // 감독
+  mDirector.value = credit.data.cast.find((item) => item.known_for_department === "Directing");
 }
 
 getData();
@@ -55,8 +85,15 @@ getData();
 </script>
 
 <style lang="scss" scoped>
+@font-face {
+  font-family: '맑은고딕';
+  src: url('@/assets/fonts/맑은고딕.ttf') format('truetype');
+}
+
 .container-fluid {
 
+  font-family: '맑은고딕';
+  
   background-image: linear-gradient(rgba(0, 0, 0, 0.6),
       rgba(0, 0, 0, 0.6)), v-bind(bgStyle);
 

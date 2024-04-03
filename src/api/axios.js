@@ -12,6 +12,7 @@ const api = {
   getList: (path) => req.get(`movie/${path}`),
   getDetail: (id) =>
     req.get(`movie/${id}`, { params: { append_to_response: "videos, images" } }),
+  getCredits: (id) => req.get(`movie/${id}/credits`),
   getSearch: (keyword) => req.get("search/movie", { params: { query: keyword } }),
 };
 

@@ -2,7 +2,7 @@
   <div class="container">
     <div class="card my-3 rounded-3 shadow">
       <router-link :to="{ name: 'Detail', params: { id: m.data.id } }">
-        <img :src="poster(m.data.poster_path)" :alt="m.data.title" class="card-img-top rounded-3 img-fluid">
+        <img :src="poster(m.data.poster_path)" :alt="m.data.title" class="card-img-top rounded-top-3 shadow img-fluid">
       </router-link>
       <div class="card-body">
         <div class="card-title fw-bold">{{ m.data.title }}</div>

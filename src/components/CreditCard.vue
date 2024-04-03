@@ -1,9 +1,10 @@
 <template>
   <div class="container">
     <div class="card my-3 rounded-3 shadow border-0">
-
-      <img :src="credit(m.data.profile_path)" :alt="m.data.name" @error="replaceImg" class="card-img-top rounded-top-3 shadow img-fluid">
-
+      <a :href="searchUrl(m.data.name)" target="blank" :title="m.data.name">
+        <img :src="credit(m.data.profile_path)" :alt="m.data.name" @error="replaceImg"
+          class="card-img-top rounded-top-3 shadow img-fluid">
+      </a>
       <div class="card-body">
         <div class="card-title fw-bold text-center">{{ m.data.name }}</div>
         <div class="card-text ms-1">{{ m.data.character }}</div>
@@ -21,8 +22,12 @@ const m = defineProps({
   data: Object,
 })
 
+const searchUrl = (name) => {
+  return "https://www.google.com/search?q=" + name;
+}
+
 const setDept = (dept) => {
-  if( dept === "Directing" ) {
+  if (dept === "Directing") {
     return "감독";
   } else {
     return "";
@@ -41,9 +46,16 @@ const replaceImg = (e) => {
   font-family: '휴먼편지체';
   src: url('@/assets/fonts/휴먼편지체.ttf') format('truetype');
 }
+
 .card {
   width: 11rem;
   margin: 0 auto;
   font-family: '휴먼편지체';
+
+  img:hover {
+    transform: scale(1.05, 1.05);
+    transition-duration: 0.5s;
+    box-shadow: 3px 3px 7px gray;
+  }
 }
 </style>

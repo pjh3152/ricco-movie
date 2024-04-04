@@ -22,17 +22,17 @@
             {{ mData.overview }}
           </div>
         </h5>
-        <div class="area" v-if="mData.videos && mData.videos.results[0]">
-          <iframe class="video"
-            :src="`https://www.youtube.com/embed/${mData.videos.results[0].key}?autoplay=0&controls=0`"
+
+        <div class="area" v-if="mVideo.length > 0 && mVideo[0]">
+          <iframe class="video" :src="`https://www.youtube.com/embed/${mVideo[0].key}?autoplay=0&controls=0`"
             allow="autoplay" />
         </div>
       </div>
     </div>
 
-    <div class="row" v-if="mData.videos && mData.videos.results[1]">
-      <div v-for="(v, idx) in mData.videos.results" :key="idx" class="col-lg-3 d-flex justify-content-center">
-        <VideoCard :videoKey="v.key" v-if="idx < 4" class="my-3" />
+    <div class="row" v-if="mVideo.length > 0 && mVideo[1]">
+      <div v-for="(v, idx) in mVideo" :key="idx" class="col-lg-3">
+        <VideoCard :videoKey="v.key" v-if="idx < 4"/>
       </div>
     </div>
 
@@ -40,7 +40,7 @@
       <div class="col-lg-2" v-if="mDirector">
         <CreditCard :data="mDirector" />
       </div>
-      <div v-for="(d, idx) in mCredit.cast" :key="idx" class="col-lg-2 d-flex justify-content-center">
+      <div v-for="(d, idx) in mCredit.cast" :key="idx" class="col-lg-2">
         <CreditCard :data="d" v-if="idx < 18" />
       </div>
     </div>
@@ -57,7 +57,7 @@ import CreditCard from "@/components/CreditCard";
 import VideoCard from "@/components/VideoCard";
 
 const mData = ref({});
-const mVideos = ref({});
+const mVideo = ref({});
 const mCredit = ref({});
 const mDirector = ref({});
 const route = useRoute();
@@ -72,10 +72,8 @@ const getData = async () => {
   ]).catch((err) => { console.log(err); })
 
   mData.value = detail.data;
-  mVideos.value = detail.data.videos;
   mCredit.value = credit.data;
-
-  console.log(detail.data.videos);
+  mVideo.value = detail.data.videos.results;
 
   // 영어제목
   originTitle.value = `(${detail.data.original_title})`;

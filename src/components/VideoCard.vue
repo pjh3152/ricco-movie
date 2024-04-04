@@ -1,6 +1,7 @@
 <template>
   <div class="container">
-    <div class="d-flex justify-content-center">
+    <!-- <div class="d-flex justify-content-center"> -->
+    <div>
       <iframe class="video" :src="`https://www.youtube.com/embed/${m.videoKey}?autoplay=0&controls=0`" allow="autoplay" />
     </div>
   </div>

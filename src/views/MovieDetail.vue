@@ -30,16 +30,18 @@
       </div>
     </div>
 
+    <div class="row" v-if="mData.videos && mData.videos.results[1]">
+      <div v-for="(v, idx) in mData.videos.results" :key="idx" class="col-lg-3 d-flex justify-content-center">
+        <VideoCard :videoKey="v.key" v-if="idx < 4" class="my-3" />
+      </div>
+    </div>
+
     <div class="row">
       <div class="col-lg-2" v-if="mDirector">
         <CreditCard :data="mDirector" />
       </div>
-      <!-- <div class="col-lg-2" v-for="(d, idx) in mCredit.cast" :key="d.id"> -->
-      <div class="col-lg-2 d-flex justify-content-center" v-for="d in mCredit.cast" :key="d.id">
-        <!-- <span v-if="idx < 12"> -->
-
-        <CreditCard :data="d" />
-        <!-- </span> -->
+      <div v-for="(d, idx) in mCredit.cast" :key="idx" class="col-lg-2 d-flex justify-content-center">
+        <CreditCard :data="d" v-if="idx < 18" />
       </div>
     </div>
 
@@ -52,8 +54,10 @@ import { api } from "@/api/axios";
 import { useRoute } from "vue-router";
 import { poster, backDrop } from "@/util/poster";
 import CreditCard from "@/components/CreditCard";
+import VideoCard from "@/components/VideoCard";
 
 const mData = ref({});
+const mVideos = ref({});
 const mCredit = ref({});
 const mDirector = ref({});
 const route = useRoute();
@@ -68,7 +72,10 @@ const getData = async () => {
   ]).catch((err) => { console.log(err); })
 
   mData.value = detail.data;
+  mVideos.value = detail.data.videos;
   mCredit.value = credit.data;
+
+  console.log(detail.data.videos);
 
   // 영어제목
   originTitle.value = `(${detail.data.original_title})`;
@@ -93,7 +100,7 @@ getData();
 .container-fluid {
 
   font-family: '맑은고딕';
-  
+
   background-image: linear-gradient(rgba(0, 0, 0, 0.6),
       rgba(0, 0, 0, 0.6)), v-bind(bgStyle);
 

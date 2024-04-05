@@ -1,8 +1,7 @@
 <template>
   <div class="container">
-    <!-- <div class="d-flex justify-content-center"> -->
-    <div>
-      <iframe class="video" :src="`https://www.youtube.com/embed/${m.videoKey}?autoplay=0&controls=0`" allow="autoplay" />
+    <div class="area">
+      <iframe class="video img-fluid" :src="`https://www.youtube.com/embed/${m.videoKey}?autoplay=0&controls=0`" allow="autoplay" />
     </div>
   </div>
 </template>
@@ -17,7 +16,19 @@ const m = defineProps({
 </script>
 
 <style lang="scss" scoped>
-.video {
-  border-radius: 15px;
-}
+.area {
+    position: relative;
+    /* absolute는 부모가 relative일 때 부모를 따라간다. */
+    width: 100%;
+    padding-bottom: 56.25%;
+    /* 16:9 비율 */
+  }
+
+  .video {
+    position: absolute;
+    width: 100%;
+    /* 부모에 맞게 꽉 채운다. */
+    height: 100%;
+    border-radius: 15px;
+  }
 </style>

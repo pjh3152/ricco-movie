@@ -23,6 +23,7 @@
           </div>
         </h5>
 
+        <!-- 메인비디오 -->
         <div class="area" v-if="mVideo.length > 0 && mVideo[0]">
           <iframe class="video" :src="`https://www.youtube.com/embed/${mVideo[0].key}?autoplay=0&controls=0`"
             allow="autoplay" />
@@ -30,12 +31,14 @@
       </div>
     </div>
 
-    <div class="row" v-if="mVideo.length > 0 && mVideo[1]">
-      <div v-for="(v, idx) in mVideo" :key="idx" class="col-lg-3">
+    <!-- 기타 비디오 -->
+    <div class="row" v-if="mSVideo.length">
+      <div class="col-lg-3" v-for="(v, idx) in mSVideo" :key="idx">
         <VideoCard :videoKey="v.key" v-if="idx < 4"/>
       </div>
     </div>
 
+    <!-- 감독, 출연진 -->
     <div class="row">
       <div class="col-lg-2" v-if="mDirector">
         <CreditCard :data="mDirector" />
@@ -58,6 +61,7 @@ import VideoCard from "@/components/VideoCard";
 
 const mData = ref({});
 const mVideo = ref({});
+const mSVideo = ref([]);
 const mCredit = ref({});
 const mDirector = ref({});
 const route = useRoute();
@@ -83,6 +87,11 @@ const getData = async () => {
 
   // 감독
   mDirector.value = credit.data.cast.find((item) => item.known_for_department === "Directing");
+
+  // 기타 비디오들
+  for( let i = 1; i < detail.data.videos.results.length; i ++ ) {
+    mSVideo.value.push(detail.data.videos.results[i]);
+  }
 }
 
 getData();

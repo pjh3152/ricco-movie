@@ -2,8 +2,7 @@
   <div class="container">
     <div class="card my-3 rounded-3 shadow">
       <router-link :to="{ name: 'Detail', params: { id: m.data.id } }">
-        <img :src="poster(m.data.poster_path)" :alt="m.data.title"
-          class="poster card-img-top rounded-top-3 shadow img-fluid">
+        <img :src="poster(m.data.poster_path)" :alt="m.data.title" class="card-img-top rounded-top-3 shadow img-fluid">
       </router-link>
       <div class="card-body">
         <div class="card-title fw-bold">{{ m.data.title }}</div>
@@ -25,7 +24,7 @@ const m = defineProps({
 
 // 애니메이션 효과
 onMounted(async () => {
-  const items = document.querySelectorAll(".poster");
+  const items = document.querySelectorAll(".card");
   const timer = ms => new Promise(res => setTimeout(res, ms));
 
   for (var i = 0; i < items.length; i++) {
@@ -44,13 +43,10 @@ img:hover {
 }
 
 .card {
-
-  .poster {
-    opacity: 0;
-    rotate: -20deg;
-    transform: scale(2);
-    transition: all 0.7s ease 0.1s;
-  }
+  opacity: 0;
+  rotate: -20deg;
+  transform: scale(2);
+  transition: all 0.7s ease 0.1s;
 
   .card-body {
     color: #696969;

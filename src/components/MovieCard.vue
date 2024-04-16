@@ -2,7 +2,8 @@
   <div class="container">
     <div class="card my-3 rounded-3 shadow">
       <router-link :to="{ name: 'Detail', params: { id: m.data.id } }">
-        <img :src="poster(m.data.poster_path)" :alt="m.data.title" class="card-img-top rounded-top-3 shadow img-fluid">
+        <img :src="poster(m.data.poster_path)" :alt="m.data.title"
+          class="poster card-img-top rounded-top-3 shadow img-fluid">
       </router-link>
       <div class="card-body">
         <div class="card-title fw-bold">{{ m.data.title }}</div>
@@ -15,11 +16,22 @@
 </template>
 
 <script setup>
-import { defineProps } from "vue";
+import { defineProps, onMounted } from "vue";
 import { poster } from "@/util/poster";
 
 const m = defineProps({
   data: Object,
+})
+
+// 애니메이션 효과
+onMounted(async () => {
+  const items = document.querySelectorAll(".poster");
+  const timer = ms => new Promise(res => setTimeout(res, ms));
+
+  for (var i = 0; i < items.length; i++) {
+    items[i].style.cssText = "opacity:1;rotate:0deg;transform:scale(1);";
+    await timer(70);
+  }
 })
 
 </script>
@@ -31,15 +43,25 @@ img:hover {
   box-shadow: 3px 3px 7px gray;
 }
 
-.card-body {
-  color: #696969;
+.card {
 
-  .card-title {
-    font-size: 13px;
+  .poster {
+    opacity: 0;
+    rotate: -20deg;
+    transform: scale(2);
+    transition: all 0.7s ease 0.1s;
   }
 
-  .card-text {
-    font-size: 12px;
+  .card-body {
+    color: #696969;
+
+    .card-title {
+      font-size: 13px;
+    }
+
+    .card-text {
+      font-size: 12px;
+    }
   }
 }
 
